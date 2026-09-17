@@ -1,0 +1,18 @@
+enum Permiso {
+  verDashboard,
+  verProductos,
+  crearProductos,
+  editarProductos,
+  eliminarProductos,
+  verInventario,
+  modificarInventario,
+  verVentas,
+  crearVentas,
+  cancelarVentas,
+  verTransferencias,
+  crearTransferencias,
+  verPedidos,
+  crearPedidos,
+  verPrestamos,
+  administrarUsuarios,
+}
