@@ -1,4 +1,4 @@
-/*
+
 class Venta {
   final String id;
   final String sucursalId;
@@ -47,4 +47,3 @@ class Venta {
   }
 }
 
- */
