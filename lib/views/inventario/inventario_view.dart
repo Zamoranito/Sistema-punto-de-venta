@@ -7,9 +7,10 @@ import '../../models/producto.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/section_title.dart';
 import 'inventario_detalle_view.dart';
-import 'movimientos_inventario_view.dart';
 import 'movimiento_entrada_view.dart';
 import 'movimiento_salida_view.dart';
+import 'movimiento_ajuste_view.dart';
+import 'movimientos_inventario_view.dart';
 
 class InventarioView extends StatefulWidget {
   const InventarioView({super.key});
@@ -163,50 +164,104 @@ class _InventarioViewState
             ),
           ),
 
-          IconButton(
-            tooltip: 'Registrar salida',
-            onPressed: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  const MovimientoSalidaView(),
-                ),
-              );
+          PopupMenuButton<String>(
+            tooltip: 'Más opciones',
+            onSelected: (valor) async {
+              switch (valor) {
+                case 'salida':
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                      const MovimientoSalidaView(),
+                    ),
+                  );
 
-              _actualizar();
+                  _actualizar();
+                  break;
+
+                case 'ajuste':
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                      const MovimientoAjusteView(),
+                    ),
+                  );
+
+                  _actualizar();
+                  break;
+
+                case 'movimientos':
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                      const MovimientosInventarioView(),
+                    ),
+                  );
+
+                  _actualizar();
+                  break;
+
+                case 'actualizar':
+                  _actualizar();
+                  break;
+              }
             },
-            icon: const Icon(
-              Icons.remove_circle_outline,
-            ),
-          ),
-
-          IconButton(
-            tooltip: 'Movimientos',
-            onPressed: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  const MovimientosInventarioView(),
+            itemBuilder: (context) {
+              return const [
+                PopupMenuItem<String>(
+                  value: 'salida',
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.remove_circle_outline,
+                    ),
+                    title: Text(
+                      'Registrar salida',
+                    ),
+                  ),
                 ),
-              );
+
+                PopupMenuItem<String>(
+                  value: 'ajuste',
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.tune,
+                    ),
+                    title: Text(
+                      'Ajustar inventario',
+                    ),
+                  ),
+                ),
+
+                PopupMenuItem<String>(
+                  value: 'movimientos',
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.history,
+                    ),
+                    title: Text(
+                      'Movimientos',
+                    ),
+                  ),
+                ),
+
+                PopupMenuItem<String>(
+                  value: 'actualizar',
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.refresh,
+                    ),
+                    title: Text(
+                      'Actualizar',
+                    ),
+                  ),
+                ),
+              ];
             },
-            icon: const Icon(
-              Icons.history,
-            ),
           ),
-
-          IconButton(
-            tooltip: 'Actualizar',
-            onPressed: _actualizar,
-            icon: const Icon(
-              Icons.refresh,
-            ),
-          ),
-
         ],
-
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
