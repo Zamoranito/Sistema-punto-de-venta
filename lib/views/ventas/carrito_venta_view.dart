@@ -6,6 +6,7 @@ import '../../models/producto.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/section_title.dart';
+import 'confirmar_venta_view.dart';
 
 class CarritoVentaView extends StatefulWidget {
   final List<Producto> productos;
@@ -223,10 +224,29 @@ class _CarritoVentaViewState
     });
   }
 
-  void _continuar() {
+  Future<void> _continuar() async {
+    final carritoConfirmado =
+    await Navigator.push<List<ItemCarrito>>(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return ConfirmarVentaView(
+            carrito: _carrito,
+            metodoPago: 'efectivo',
+          );
+        },
+      ),
+    );
+
+    if (!mounted) return;
+
+    if (carritoConfirmado == null) {
+      return;
+    }
+
     Navigator.pop(
       context,
-      _carrito,
+      carritoConfirmado,
     );
   }
 
