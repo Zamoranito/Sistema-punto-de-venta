@@ -5,6 +5,8 @@ import '../../models/usuario.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/section_title.dart';
+import 'seleccionar_productos_view.dart';
+import '../../models/producto.dart';
 
 class NuevaVentaView extends StatefulWidget {
   const NuevaVentaView({super.key});
@@ -136,11 +138,27 @@ class _NuevaVentaViewState extends State<NuevaVentaView> {
     );
   }
 
-  void _continuar() {
+  Future<void> _continuar() async {
+    final productosSeleccionados =
+    await Navigator.push<List<Producto>>(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+        const SeleccionarProductosView(),
+      ),
+    );
+
+    if (!mounted) return;
+
+    if (productosSeleccionados == null ||
+        productosSeleccionados.isEmpty) {
+      return;
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
+      SnackBar(
         content: Text(
-          'La selección de productos se agregará en el siguiente paso.',
+          '${productosSeleccionados.length} producto(s) seleccionado(s).',
         ),
       ),
     );
