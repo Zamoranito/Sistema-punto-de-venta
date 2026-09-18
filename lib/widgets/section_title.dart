@@ -3,19 +3,36 @@ import 'package:flutter/material.dart';
 class SectionTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
-  final VoidCallback? onAction;
+
+  // Acción mediante texto
   final String? actionText;
+  final VoidCallback? onAction;
+
+  // Acción mediante widget personalizado
+  final Widget? action;
 
   const SectionTitle({
     super.key,
     required this.title,
     this.subtitle,
-    this.onAction,
     this.actionText,
+    this.onAction,
+    this.action,
   });
 
   @override
   Widget build(BuildContext context) {
+    Widget? actionWidget;
+
+    if (action != null) {
+      actionWidget = action;
+    } else if (actionText != null && onAction != null) {
+      actionWidget = TextButton(
+        onPressed: onAction,
+        child: Text(actionText!),
+      );
+    }
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -44,11 +61,10 @@ class SectionTitle extends StatelessWidget {
             ],
           ),
         ),
-        if (onAction != null && actionText != null)
-          TextButton(
-            onPressed: onAction,
-            child: Text(actionText!),
-          ),
+        if (actionWidget != null) ...[
+          const SizedBox(width: 12),
+          actionWidget,
+        ],
       ],
     );
   }
