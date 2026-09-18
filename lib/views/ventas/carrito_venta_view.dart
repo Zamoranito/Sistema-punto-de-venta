@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../config/app_config.dart';
 import '../../models/item_carrito.dart';
 import '../../models/producto.dart';
 import '../../widgets/app_card.dart';
@@ -41,6 +42,15 @@ class _CarritoVentaViewState
       0,
           (total, item) => total + item.subtotal,
     );
+  }
+
+  double get _impuesto {
+    return _subtotal *
+        (AppConfig.impuestoPorcentaje / 100);
+  }
+
+  double get _total {
+    return _subtotal + _impuesto;
   }
 
   @override
@@ -117,7 +127,7 @@ class _CarritoVentaViewState
                 CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Resumen',
+                    'Resumen de la venta',
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -140,6 +150,41 @@ class _CarritoVentaViewState
                     context,
                     'Subtotal',
                     _formatearMoneda(_subtotal),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  _dato(
+                    context,
+                    'IVA (${AppConfig.impuestoPorcentaje.toStringAsFixed(0)}%)',
+                    _formatearMoneda(_impuesto),
+                  ),
+
+                  const Divider(height: 24),
+
+                  Row(
+                    mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Total',
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium
+                            ?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        _formatearMoneda(_total),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
