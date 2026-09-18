@@ -18,8 +18,7 @@ class SeleccionarProductosView extends StatefulWidget {
 
 class _SeleccionarProductosViewState
     extends State<SeleccionarProductosView> {
-  final ProductoController _productoController =
-      ProductoController.instancia;
+  final ProductoController _productoController = ProductoController.instancia;
 
   final InventarioController _inventarioController =
       InventarioController.instancia;
