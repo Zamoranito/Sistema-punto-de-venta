@@ -6,6 +6,7 @@ import '../../models/venta.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/info_card.dart';
 import '../../widgets/section_title.dart';
+import 'nueva_venta_view.dart';
 
 class VentasView extends StatefulWidget {
   const VentasView({
@@ -156,15 +157,15 @@ class _VentasViewState extends State<VentasView> {
     setState(() {});
   }
 
-  void _nuevaVenta() {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
-      const SnackBar(
-        content: Text(
-          'El registro de una nueva venta se agregará en el siguiente paso.',
-        ),
+  void _nuevaVenta() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const NuevaVentaView(),
       ),
     );
+
+    setState(() {});
   }
 
   void _mostrarDetalle(Venta venta) {
