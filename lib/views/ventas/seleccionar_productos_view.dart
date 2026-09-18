@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import '../../controllers/inventario_controller.dart';
 import '../../controllers/producto_controller.dart';
 import '../../models/inventario.dart';
+import '../../models/item_carrito.dart';
 import '../../models/producto.dart';
 import '../../widgets/app_card.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/section_title.dart';
+import 'carrito_venta_view.dart';
 
 class SeleccionarProductosView extends StatefulWidget {
   const SeleccionarProductosView({super.key});
@@ -224,10 +226,27 @@ class _SeleccionarProductosViewState
     });
   }
 
-  void _continuar() {
+  Future<void> _continuar() async {
+    final carrito = await Navigator.push<List<ItemCarrito>>(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return CarritoVentaView(
+            productos: _productosSeleccionados,
+          );
+        },
+      ),
+    );
+
+    if (!mounted) return;
+
+    if (carrito == null) {
+      return;
+    }
+
     Navigator.pop(
       context,
-      _productosSeleccionados,
+      carrito,
     );
   }
 }
